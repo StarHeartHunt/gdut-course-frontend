@@ -1,0 +1,13 @@
+{
+  "miniprogramRoot": "./",
+  "projectname": "gdut-course",
+  "description": "A timetable for gdut courses",
+  "appid": "touristappid",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "postcss": false,
+    "minified": false
+  },
+  "compileType": "miniprogram"
+}
