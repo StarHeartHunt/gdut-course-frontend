@@ -14,16 +14,17 @@
         <view class="icon-stats h-5 w-5"></view>
         <text class="btm-nav-label">统计</text>
       </view>
-    </view>-->
+    </view>
+  -->
   </view>
 </template>
 
 <script>
-import "./index.scss"
+import "./index2.scss"
 import Counter from "../../components/Counter.vue"
 
 export default {
-  name: "Index",
+  name: "Index2",
   components: {
     Counter,
   },
