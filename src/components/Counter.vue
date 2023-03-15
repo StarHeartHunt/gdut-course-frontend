@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { useCounterStore } from '../stores/counter'
+import { useCounterStore } from "../stores/counter"
 
 export default {
   setup() {
@@ -24,9 +24,9 @@ export default {
 
     return {
       counter,
-      onAdd
+      onAdd,
     }
-  }
+  },
 }
 </script>
 
