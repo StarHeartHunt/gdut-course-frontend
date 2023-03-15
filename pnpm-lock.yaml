@@ -1972,7 +1972,7 @@ packages:
       copy-webpack-plugin: 5.1.2_webpack@4.46.0
       css-loader: 5.2.7_webpack@4.46.0
       csso-webpack-plugin: 2.0.0-beta.1
-      file-loader: 6.0.0_webpack@4.46.0
+      file-loader: 6.2.0_webpack@4.46.0
       fs-extra: 8.1.0
       html-minifier: 4.0.0
       jsdom: 16.7.0
@@ -2002,7 +2002,7 @@ packages:
       stylus-loader: 3.0.2_stylus@0.55.0
       tapable: 1.1.3
       terser-webpack-plugin: 3.1.0_webpack@4.46.0
-      url-loader: 4.1.0_6tsl4xvokwcrfvmxxwba5amiyi
+      url-loader: 4.1.1_lit45vopotvaqup7lrvlnvtxwy
       vm2: 3.9.14
       webpack: 4.46.0
       webpack-chain: 4.9.0
@@ -6999,17 +6999,6 @@ packages:
       flat-cache: 3.0.4
     dev: true
 
-  /file-loader/6.0.0_webpack@4.46.0:
-    resolution: {integrity: sha512-/aMOAYEFXDdjG0wytpTL5YQLfZnnTmLNjn+AIrJ/6HVnTfDqLsVKUUwkDf4I4kgex36BvjuXEn/TX9B/1ESyqQ==}
-    engines: {node: '>= 10.13.0'}
-    peerDependencies:
-      webpack: ^4.0.0 || ^5.0.0
-    dependencies:
-      loader-utils: 2.0.4
-      schema-utils: 2.7.1
-      webpack: 4.46.0
-    dev: true
-
   /file-loader/6.0.0_webpack@5.69.0:
     resolution: {integrity: sha512-/aMOAYEFXDdjG0wytpTL5YQLfZnnTmLNjn+AIrJ/6HVnTfDqLsVKUUwkDf4I4kgex36BvjuXEn/TX9B/1ESyqQ==}
     engines: {node: '>= 10.13.0'}
@@ -7019,6 +7008,17 @@ packages:
       loader-utils: 2.0.4
       schema-utils: 2.7.1
       webpack: 5.69.0
+    dev: true
+
+  /file-loader/6.2.0_webpack@4.46.0:
+    resolution: {integrity: sha512-qo3glqyTa61Ytg4u73GultjHGjdRyig3tG6lPtyX/jOEJvHif9uB0/OCI2Kif6ctF3caQTW2G5gym21oAsI4pw==}
+    engines: {node: '>= 10.13.0'}
+    peerDependencies:
+      webpack: ^4.0.0 || ^5.0.0
+    dependencies:
+      loader-utils: 2.0.4
+      schema-utils: 3.1.1
+      webpack: 4.46.0
     dev: true
 
   /file-type/3.9.0:
@@ -11856,7 +11856,7 @@ packages:
     dependencies:
       deep-extend: 0.6.0
       ini: 1.3.8
-      minimist: 1.2.8
+      minimist: 1.2.5
       strip-json-comments: 2.0.1
     dev: true
 
@@ -14093,23 +14093,6 @@ packages:
     deprecated: Please see https://github.com/lydell/urix#deprecated
     dev: true
 
-  /url-loader/4.1.0_6tsl4xvokwcrfvmxxwba5amiyi:
-    resolution: {integrity: sha512-IzgAAIC8wRrg6NYkFIJY09vtktQcsvU8V6HhtQj9PTefbYImzLB1hufqo4m+RyM5N3mLx5BqJKccgxJS+W3kqw==}
-    engines: {node: '>= 10.13.0'}
-    peerDependencies:
-      file-loader: '*'
-      webpack: ^4.0.0 || ^5.0.0
-    peerDependenciesMeta:
-      file-loader:
-        optional: true
-    dependencies:
-      file-loader: 6.0.0_webpack@4.46.0
-      loader-utils: 2.0.4
-      mime-types: 2.1.35
-      schema-utils: 2.7.1
-      webpack: 4.46.0
-    dev: true
-
   /url-loader/4.1.0_p5qxeadflelpkyhvjpqokzoo5i:
     resolution: {integrity: sha512-IzgAAIC8wRrg6NYkFIJY09vtktQcsvU8V6HhtQj9PTefbYImzLB1hufqo4m+RyM5N3mLx5BqJKccgxJS+W3kqw==}
     engines: {node: '>= 10.13.0'}
@@ -14125,6 +14108,23 @@ packages:
       mime-types: 2.1.35
       schema-utils: 2.7.1
       webpack: 5.69.0
+    dev: true
+
+  /url-loader/4.1.1_lit45vopotvaqup7lrvlnvtxwy:
+    resolution: {integrity: sha512-3BTV812+AVHHOJQO8O5MkWgZ5aosP7GnROJwvzLS9hWDj00lZ6Z0wNak423Lp9PBZN05N+Jk/N5Si8jRAlGyWA==}
+    engines: {node: '>= 10.13.0'}
+    peerDependencies:
+      file-loader: '*'
+      webpack: ^4.0.0 || ^5.0.0
+    peerDependenciesMeta:
+      file-loader:
+        optional: true
+    dependencies:
+      file-loader: 6.2.0_webpack@4.46.0
+      loader-utils: 2.0.4
+      mime-types: 2.1.35
+      schema-utils: 3.1.1
+      webpack: 4.46.0
     dev: true
 
   /url-parse-lax/3.0.0:
