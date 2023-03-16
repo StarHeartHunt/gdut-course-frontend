@@ -8,6 +8,8 @@
 import "./index.scss"
 
 export default {
-  name: "Schedule",
+  setup() {
+    return {}
+  },
 }
 </script>

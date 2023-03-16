@@ -1,21 +1,7 @@
 <template>
   <view class="login">
-    <!--
-    <view class="btm-nav">
-      <view class="btn nav-item">
-        <view class="icon-home h-5 w-5"></view>
-        <text class="btm-nav-label">主页</text>
-      </view>
-      <view class="btn nav-item active">
-        <view class="icon-warn h-5 w-5"></view>
-        <text class="btm-nav-label">信息</text>
-      </view>
-      <view class="btn nav-item">
-        <view class="icon-stats h-5 w-5"></view>
-        <text class="btm-nav-label">统计</text>
-      </view>
-    </view>
-  -->
+    <input name="name" placeholder="请输入名字" />
+    <label className=""> Name </label>
   </view>
 </template>
 
@@ -23,6 +9,8 @@
 import "./index.scss"
 
 export default {
-  name: "index",
+  setup() {
+    return {}
+  },
 }
 </script>

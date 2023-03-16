@@ -4,7 +4,8 @@
       class="w-full flex items-center content-center justify-center place-items-center"
     >
       <view
-        class="mx-2 my-2 flex flex-col box-border items-center w-11/12 drop-shadow-lg bg-white rounded"
+        class="mx-2 my-2 flex flex-col box-border items-center w-11/12 drop-shadow-lg bg-white rounded clickable"
+        @tap="onTapUserLogin"
       >
         <view
           class="flex middle none w-full center rounded-lg py-3 font-sans font-bold uppercase text-primary-900"
@@ -23,9 +24,18 @@
 </template>
 
 <script>
+import Taro from "@tarojs/taro"
+
 import "./index.scss"
 
 export default {
-  name: "Settings",
+  setup() {
+    const onClickUserLogin = () => {
+      Taro.navigateTo({ url: "/pages/subpages/pages/login/index" })
+    }
+    return {
+      onTapUserLogin: onClickUserLogin,
+    }
+  },
 }
 </script>

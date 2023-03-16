@@ -24,6 +24,8 @@
 import "./index.scss"
 
 export default {
-  name: "Score",
+  setup() {
+    return {}
+  },
 }
 </script>
