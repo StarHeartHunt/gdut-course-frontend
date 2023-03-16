@@ -1,5 +1,9 @@
 export default {
-  pages: ["pages/index/index", "pages/index2/index2"],
+  pages: [
+    "pages/schedule/schedule",
+    "pages/score/score",
+    "pages/settings/settings",
+  ],
   window: {
     backgroundTextStyle: "light",
     navigationBarBackgroundColor: "#fff",
@@ -7,17 +11,27 @@ export default {
     navigationBarTextStyle: "black",
   },
   tabBar: {
-    color: "#000000",
-    selectedColor: "#7f7f7f",
+    color: "#1f2937",
+    selectedColor: "#48b0f1",
     backgroundColor: "#ffffff",
     list: [
       {
-        pagePath: "pages/index/index",
-        text: "组件",
+        iconPath: "assets/images/a.png",
+        selectedIconPath: "assets/images/a.png",
+        pagePath: "pages/schedule/schedule",
+        text: "课表",
       },
       {
-        pagePath: "pages/index2/index2",
-        text: "组件2",
+        iconPath: "assets/images/a.png",
+        selectedIconPath: "assets/images/a.png",
+        pagePath: "pages/score/score",
+        text: "成绩",
+      },
+      {
+        iconPath: "assets/images/a.png",
+        selectedIconPath: "assets/images/a.png",
+        pagePath: "pages/settings/settings",
+        text: "设置",
       },
     ],
   },

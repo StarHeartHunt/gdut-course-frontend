@@ -1,5 +1,5 @@
 <template>
-  <view class="index">
+  <view class="score">
     <!--
     <view class="btm-nav">
       <view class="btn nav-item">
@@ -14,18 +14,15 @@
         <view class="icon-stats h-5 w-5"></view>
         <text class="btm-nav-label">统计</text>
       </view>
-    </view>-->
+    </view>
+  -->
   </view>
 </template>
 
 <script>
-import "./index.scss"
-import Counter from "../../components/Counter.vue"
+import "./score.scss"
 
 export default {
-  name: "Index",
-  components: {
-    Counter,
-  },
+  name: "Score",
 }
 </script>

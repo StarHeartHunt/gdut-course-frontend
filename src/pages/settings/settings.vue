@@ -1,5 +1,5 @@
 <template>
-  <view class="index">
+  <view class="settings">
     <!--
     <view class="btm-nav">
       <view class="btn nav-item">
@@ -20,13 +20,9 @@
 </template>
 
 <script>
-import "./index2.scss"
-import Counter from "../../components/Counter.vue"
+import "./settings.scss"
 
 export default {
-  name: "Index2",
-  components: {
-    Counter,
-  },
+  name: "settings",
 }
 </script>
