@@ -1,3 +1,5 @@
+import path from 'path'
+
 const config = {
   projectName: "gdut-course",
   date: "2023-3-15",
@@ -18,6 +20,9 @@ const config = {
     ],
   ],
   defineConstants: {},
+  alias: {
+    "@": path.resolve(__dirname, "..", "src")
+  },
   copy: {
     patterns: [],
     options: {},
