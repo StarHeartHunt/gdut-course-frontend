@@ -1,5 +1,6 @@
 <template>
   <view class="score">
+    <text>112212</text>
     <!--
     <view class="btm-nav">
       <view class="btn nav-item">
@@ -20,7 +21,7 @@
 </template>
 
 <script>
-import "./score.scss"
+import "./index.scss"
 
 export default {
   name: "Score",

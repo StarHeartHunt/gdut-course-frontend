@@ -1,12 +1,13 @@
 <template>
-  <view class="schedule"> </view>
+  <view class="schedule">
+    <text>112212</text>
+  </view>
 </template>
 
 <script>
-import "./schedule.scss"
+import "./index.scss"
 
 export default {
   name: "Schedule",
-  components: {},
 }
 </script>

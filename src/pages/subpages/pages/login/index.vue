@@ -1,5 +1,5 @@
 <template>
-  <view class="settings">
+  <view class="login">
     <!--
     <view class="btm-nav">
       <view class="btn nav-item">
@@ -20,9 +20,9 @@
 </template>
 
 <script>
-import "./settings.scss"
+import "./index.scss"
 
 export default {
-  name: "settings",
+  name: "index",
 }
 </script>

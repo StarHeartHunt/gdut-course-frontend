@@ -1,9 +1,6 @@
 export default {
-  pages: [
-    "pages/schedule/schedule",
-    "pages/score/score",
-    "pages/settings/settings",
-  ],
+  lazyCodeLoading: "requiredComponents",
+  pages: ["pages/schedule/index", "pages/score/index", "pages/settings/index"],
   window: {
     backgroundTextStyle: "light",
     navigationBarBackgroundColor: "#fff",
@@ -18,21 +15,27 @@ export default {
       {
         iconPath: "assets/images/a.png",
         selectedIconPath: "assets/images/a.png",
-        pagePath: "pages/schedule/schedule",
+        pagePath: "pages/schedule/index",
         text: "课表",
       },
       {
         iconPath: "assets/images/a.png",
         selectedIconPath: "assets/images/a.png",
-        pagePath: "pages/score/score",
+        pagePath: "pages/score/index",
         text: "成绩",
       },
       {
         iconPath: "assets/images/a.png",
         selectedIconPath: "assets/images/a.png",
-        pagePath: "pages/settings/settings",
+        pagePath: "pages/settings/index",
         text: "设置",
       },
     ],
   },
+  subpackages: [
+    {
+      root: "pages/subpages",
+      pages: ["pages/login/index"],
+    },
+  ],
 }
