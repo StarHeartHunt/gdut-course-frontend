@@ -1,11 +1,12 @@
 import { defineStore } from "pinia"
-import { ref } from "vue"
+import { computed, ref } from "vue"
 
 export const useCookies = defineStore("cookies", () => {
   const cookies = ref("")
+  const storageCookies = computed(() => cookies.value)
   const setCookies = (value: string) => {
     cookies.value = value
   }
 
-  return { cookies, setCookies }
+  return { cookies, storageCookies, setCookies }
 })
