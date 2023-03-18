@@ -23,12 +23,13 @@
   </view>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from "vue"
 import Taro from "@tarojs/taro"
 
 import "./index.scss"
 
-export default {
+export default defineComponent({
   setup() {
     const onClickUserLogin = () => {
       Taro.navigateTo({ url: "/pages/subpages/pages/login/index" })
@@ -37,5 +38,5 @@ export default {
       onTapUserLogin: onClickUserLogin,
     }
   },
-}
+})
 </script>
