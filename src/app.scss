@@ -1,3 +1,9 @@
+// importing core styling file
+@import "./assets/fontawesome/scss/fontawesome.scss";
+
+// our project needs Solid
+@import "./assets/fontawesome/scss/solid.scss";
+
 * {
   -webkit-tap-highlight-color: transparent;
 }
