@@ -8,7 +8,7 @@
             type="text"
             name="account"
             placeholder="请输入用户名"
-            class="form-input p-2 bg-white border shadow-sm border-slate-200 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-auto rounded-md sm:text-sm focus:ring-1 contrast-more:border-slate-400 contrast-more:placeholder-slate-500"
+            class="form-input p-2 bg-white border shadow-sm border-slate-200 placeholder-slate-400 focus:outline-none focus:ring focus:border-primary-500 block w-auto rounded-md sm:text-sm"
           />
         </label>
         <label class="relative block py-1 box-border">
@@ -17,7 +17,7 @@
             type="password"
             name="pwd"
             placeholder="请输入密码"
-            class="form-input p-2 bg-white border shadow-sm border-slate-200 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-auto rounded-md sm:text-sm focus:ring-1 contrast-more:border-slate-400 contrast-more:placeholder-slate-500"
+            class="form-input p-2 bg-white border shadow-sm border-slate-200 placeholder-slate-400 focus:outline-none focus:ring focus:border-primary-500 block w-auto rounded-md sm:text-sm focus:ring-1"
           />
         </label>
         <label class="relative block py-1 box-border">
@@ -29,7 +29,7 @@
               type="text"
               name="verifycode"
               placeholder="请输入验证码"
-              class="form-input flex-grow py-2 pl-2 w-full bg-white border shadow-sm border-slate-200 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block rounded-md sm:text-sm focus:ring-1 contrast-more:border-slate-400 contrast-more:placeholder-slate-500"
+              class="form-input flex-grow py-2 pl-2 w-full bg-white border shadow-sm border-slate-200 placeholder-slate-400 focus:outline-none focus:ring focus:border-primary-500 block rounded-md sm:text-sm focus:ring-1"
             />
             <image
               class="py-2 pr-1 absolute right-0"
@@ -100,6 +100,21 @@ export default {
         method: "POST",
       })
       console.log(response)
+      if (response.statusCode >= 200 && response.statusCode < 400) {
+        setTimeout(() => {
+          Taro.navigateBack()
+        }, 1500)
+        Taro.showToast({
+          title: "登录成功",
+          icon: "success",
+        })
+        Taro.setStorageSync("isLoggedin", true)
+      } else {
+        Taro.showToast({
+          title: "登录失败",
+          icon: "none",
+        })
+      }
     }
 
     return { getTimestampMS, captchaSrc, formSubmit }
