@@ -20,6 +20,7 @@ specifiers:
   '@tarojs/shared': 3.6.2
   '@tarojs/taro': 3.6.2
   '@tarojs/webpack5-runner': 3.6.2
+  '@types/crypto-js': ^4.1.1
   '@types/webpack-env': ^1.18.0
   '@typescript-eslint/eslint-plugin': ^5.55.0
   '@typescript-eslint/parser': ^5.55.0
@@ -27,6 +28,7 @@ specifiers:
   '@vue/compiler-sfc': ^3.2.47
   autoprefixer: 10.0.2
   babel-preset-taro: 3.6.2
+  crypto-js: ^4.1.1
   css-loader: 3.4.2
   eslint: ^8.36.0
   eslint-config-taro: 3.6.2
@@ -57,6 +59,7 @@ dependencies:
   '@tarojs/shared': 3.6.2
   '@tarojs/taro': 3.6.2_vue@3.2.47
   autoprefixer: 10.0.2_postcss@8.4.21
+  crypto-js: 4.1.1
   pinia: 2.0.33_hmuptsblhheur2tugfgucj7gc4
   vue: 3.2.47
 
@@ -66,6 +69,7 @@ devDependencies:
   '@tarojs/cli': 3.6.2_postcss@8.4.21+vue@3.2.47
   '@tarojs/mini-runner': 3.6.2_postcss@8.4.21+vue@3.2.47
   '@tarojs/webpack5-runner': 3.6.2_rfhimnd57xiw67inzzqjld75fu
+  '@types/crypto-js': 4.1.1
   '@types/webpack-env': 1.18.0
   '@typescript-eslint/eslint-plugin': 5.55.0_342y7v4tc7ytrrysmit6jo4wri
   '@typescript-eslint/parser': 5.55.0_vgl77cfdswitgr47lm5swmv43m
@@ -2481,6 +2485,10 @@ packages:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
       '@types/node': 18.15.3
+    dev: true
+
+  /@types/crypto-js/4.1.1:
+    resolution: {integrity: sha512-BG7fQKZ689HIoc5h+6D2Dgq1fABRa0RbBWKBd9SP/MVRVXROflpm5fhwyATX5duFmbStzyzyycPB8qUYKDH3NA==}
     dev: true
 
   /@types/debug/4.1.7:
@@ -5266,6 +5274,10 @@ packages:
       randombytes: 2.1.0
       randomfill: 1.0.4
     dev: true
+
+  /crypto-js/4.1.1:
+    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
+    dev: false
 
   /crypto-random-string/2.0.0:
     resolution: {integrity: sha512-v1plID3y9r/lPhviJ1wrXpLeyUIGAZ2SHNYTEapm7/8A9nLPoyvVp3RK/EPFqn5kEznyWgYZNsRtYYIWbuG8KA==}

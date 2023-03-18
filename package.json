@@ -50,6 +50,7 @@
     "@tarojs/shared": "3.6.2",
     "@tarojs/taro": "3.6.2",
     "autoprefixer": "10.0.2",
+    "crypto-js": "^4.1.1",
     "pinia": "^2.0.33",
     "vue": "^3.2.47"
   },
@@ -59,6 +60,7 @@
     "@tarojs/cli": "3.6.2",
     "@tarojs/mini-runner": "^3.6.2",
     "@tarojs/webpack5-runner": "3.6.2",
+    "@types/crypto-js": "^4.1.1",
     "@types/webpack-env": "^1.18.0",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
