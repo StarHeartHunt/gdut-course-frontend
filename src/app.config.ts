@@ -3,9 +3,9 @@ export default {
   pages: ["pages/schedule/index", "pages/score/index", "pages/settings/index"],
   window: {
     backgroundTextStyle: "light",
-    navigationBarBackgroundColor: "#fff",
-    navigationBarTitleText: "WeChat",
-    navigationBarTextStyle: "black",
+    navigationBarBackgroundColor: "#48b0f1",
+    navigationBarTitleText: "GDUTCourse",
+    navigationBarTextStyle: "white",
   },
   tabBar: {
     color: "#1f2937",
