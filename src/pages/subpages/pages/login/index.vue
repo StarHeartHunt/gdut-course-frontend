@@ -55,29 +55,34 @@ import Taro from "@tarojs/taro"
 import { onMounted, ref } from "vue"
 import { encrypt } from "@/utils/aes"
 import { getTimestampMS } from "@/utils/time"
+import { useCookies } from "@/stores/cookies"
 
 import "./index.scss"
 
 export default {
   setup() {
     const captchaSrc = ref("")
+    const cookies = useCookies()
 
     onMounted(async () => {
+      const initCookies = (
+        await Taro.request({
+          url: "http://127.0.0.1:3000/auth/init",
+          method: "GET",
+        })
+      ).data
+      cookies.setCookies(initCookies)
       await Taro.setStorage({
         key: "cookies",
-        data: (
-          await Taro.request({
-            url: "http://127.0.0.1:3000/auth/init",
-            method: "GET",
-          })
-        ).data,
+        data: initCookies,
       })
       captchaSrc.value = (
         await Taro.request({
-          url: `http://127.0.0.1:3000/auth/verify?&cookies=${encodeURIComponent(
-            Taro.getStorageSync("cookies")
-          )}`,
-          method: "GET",
+          url: "http://127.0.0.1:3000/auth/verify",
+          data: {
+            cookies: cookies.cookies,
+          },
+          method: "POST",
         })
       ).data
     })
