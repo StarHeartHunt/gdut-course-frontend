@@ -99,7 +99,6 @@ export default {
         },
         method: "POST",
       })
-      console.log(response)
       if (response.statusCode >= 200 && response.statusCode < 400) {
         setTimeout(() => {
           Taro.navigateBack()

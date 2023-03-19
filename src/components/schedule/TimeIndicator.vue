@@ -1,7 +1,7 @@
 <template>
-  <view class="text-sm flex flex-col justify-space-between">
-    <view class="text-center">{{ number }}</view>
-    <view class="text-center" v-if="showPeriod"> {{ period }} </view>
+  <view class="flex flex-col justify-space-between">
+    <view class="text-xs text-center">{{ number }}</view>
+    <view class="text-xs text-center" v-if="showPeriod"> {{ period }} </view>
   </view>
 </template>
 

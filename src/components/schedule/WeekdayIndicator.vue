@@ -14,9 +14,13 @@
   <view
     class="w-full grid grid-cols-8 min-h-10 justify-space-between items-center content-center place-items-center"
   >
-    <view> {{ currentMonth }}月 </view>
+    <view class="text-xs"> {{ currentMonth.toString() }}月 </view>
     <view
-      class="text-center"
+      class="text-xs text-center"
+      :style="{
+        color: weekDates[index] === currentDate ? 'white' : 'black',
+        backgroundColor: weekDates[index] === currentDate ? '#3B82F6' : 'white',
+      }"
       v-for="(weekDate, index) in weekDates"
       :key="index"
       >{{ weekDate.toString() }}</view
@@ -41,13 +45,13 @@ export default defineComponent({
     currentWeek: Number,
   },
   setup() {
-    const currentMonth = (dayjs().month() + 1).toString()
+    const currentMonth = dayjs().month() + 1
+    const currentDate = dayjs().get("date")
     const weekStartDate = dayjs().weekday(0).get("date")
     const weekEndDate = dayjs().weekday(6).get("date")
     const weekDates = arrayRange(weekStartDate, weekEndDate, 1)
-    console.log(weekDates)
 
-    return { currentMonth, weekdays, weekDates }
+    return { currentMonth, currentDate, weekdays, weekDates }
   },
 })
 </script>

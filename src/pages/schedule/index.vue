@@ -27,13 +27,15 @@
 
 <script lang="ts">
 import Taro from "@tarojs/taro"
-import { computed, defineComponent, onMounted, ref } from "vue"
+import { computed, ComputedRef, defineComponent, onMounted, ref } from "vue"
 import "./index.scss"
 
 import TimeIndicator from "@/components/schedule/TimeIndicator.vue"
 import WeekdayIndicator from "@/components/schedule/WeekdayIndicator.vue"
 import ClazzBadge from "@/components/schedule/ClazzBadge.vue"
 import { timetable } from "@/consts"
+import { useCourses } from "@/stores/courses"
+import dayjs from "dayjs"
 
 export default defineComponent({
   components: {
@@ -42,27 +44,37 @@ export default defineComponent({
     ClazzBadge,
   },
   setup() {
-    const currentWeek = ref(1)
+    const termStartDate = ref("2023-02-20")
+    const currentWeek = computed(() =>
+      termStartDate.value
+        ? dayjs().diff(dayjs(termStartDate.value), "week") + 1
+        : 1
+    )
+
+    Taro.request({
+      url: "http://127.0.0.1:3000/courses/termStartWeek",
+      method: "POST",
+      data: { cookies: Taro.getStorageSync("cookies"), semester: "202202" },
+    }).then((res) => {
+      termStartDate.value = res.data[0].rq
+    })
+    const coursesStroage = useCourses()
 
     onMounted(async () => {
       const response = await Taro.request({
         url: "http://127.0.0.1:3000/courses/",
         method: "POST",
-        data: {
-          cookies: "JSESSIONID=930DB2B4A4E3DDDC12789C12907BB9A2",
-          semester: "202202",
-          //cookies: Taro.getStorageSync("cookies"),
-        },
+        data: { cookies: Taro.getStorageSync("cookies"), semester: "202202" },
       })
+      coursesStroage.setCourses(response.data)
       await Taro.setStorage({
         key: "courses",
         data: response.data,
       })
-      console.log(response.data)
     })
-    const courses = computed(() =>
-      Taro.getStorageSync("courses").filter(
-        (course: any) =>
+    const courses: ComputedRef<Array<Record<string, any>>> = computed(() =>
+      coursesStroage.storageCourses.filter(
+        (course) =>
           course.startWeek <= currentWeek.value &&
           course.endWeek >= currentWeek.value
       )
