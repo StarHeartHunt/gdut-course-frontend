@@ -2,9 +2,9 @@ import { defineStore } from "pinia"
 import { computed, ref } from "vue"
 
 export const useCourses = defineStore("courses", () => {
-  const courses = ref({})
+  const courses = ref([] as Array<Record<string, any>>)
   const storageCourses = computed(() => courses.value)
-  const setCourses = (value: string) => {
+  const setCourses = (value: Array<Record<string, any>>) => {
     courses.value = value
   }
 
