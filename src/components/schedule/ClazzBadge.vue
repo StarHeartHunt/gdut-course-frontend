@@ -1,6 +1,6 @@
 <template>
   <view
-    class="flex w-full h-full box-border border border-white rounded bg-primary-500/65 active:bg-primary-800/65"
+    class="flex w-full h-full box-border border-2 border-white rounded-md bg-primary-500/75 active:bg-primary-800/75 shadow-md"
     :style="gridArea"
   >
     <view class="m-1 text-white text-xs"
