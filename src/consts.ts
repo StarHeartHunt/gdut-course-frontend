@@ -13,7 +13,7 @@ export const timetable = [
   { number: "12", period: "20:10 20:55" },
 ]
 
-export const weekdays = ["周二", "周三", "周四", "周五", "周六", "周日"]
+export const weekdays = ["一", "二", "三", "四", "五", "六", "日"]
 
 export const colors = [
   "rgba(248, 113, 113, 0.8)",

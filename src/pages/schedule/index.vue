@@ -1,6 +1,9 @@
 <template>
   <view class="schedule">
-    <WeekdayIndicator :current-week="currentWeek" />
+    <WeekdayIndicator
+      :current-week="currentWeek"
+      :total-weeks-count="totalWeeksCount"
+    />
     <view
       class="grid grid-cols-8 grid-rows-12 grid-flow-col w-full box-border items-center content-center place-items-center gap-1"
     >
@@ -29,6 +32,7 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, ref } from "vue"
+import { eventCenter, getCurrentInstance } from "@tarojs/taro"
 import "./index.scss"
 
 import TimeIndicator from "@/components/schedule/TimeIndicator.vue"
@@ -37,7 +41,7 @@ import ClazzBadge from "@/components/schedule/ClazzBadge.vue"
 import { timetable, colors } from "@/consts"
 import { useStorage } from "@/stores/storage"
 import dayjs from "dayjs"
-import { getAllCourses, getTermStartWeek } from "@/utils/api"
+import { getAllCourses, getTermStartWeek, isStatusSuccess } from "@/utils/api"
 import { showLoginTipAndRedirect } from "@/utils/modal"
 
 export default defineComponent({
@@ -51,39 +55,54 @@ export default defineComponent({
     if (!storage.cookies) showLoginTipAndRedirect()
 
     const termStartDate = ref("2023-02-20")
+    const totalWeeksCount = ref(20)
+
     const currentWeek = computed(() =>
       termStartDate.value
         ? dayjs().diff(dayjs(termStartDate.value), "week") + 1
         : 1
     )
+    eventCenter.once(getCurrentInstance().router!.onShow, () => {
+      getTermStartWeek()
+        .then((res) => {
+          if (isStatusSuccess(res.statusCode))
+            termStartDate.value = res.data[0].rq
+        })
+        .catch((err) =>
+          console.log(`[GetTermStartWeek] ${JSON.stringify(err)}`)
+        )
 
-    getTermStartWeek().then((res) => {
-      termStartDate.value = res.data[0].rq
+      getAllCourses()
+        .then((res) => {
+          if (isStatusSuccess(res.statusCode)) storage.setCourses(res.data)
+        })
+        .catch((err) => console.log(`[GetAllCourses] ${JSON.stringify(err)}`))
     })
 
-    getAllCourses().then((response) => storage.setCourses(response.data))
-
     const courses: ComputedRef<Array<Record<string, any>>> = computed(() =>
-      storage.courses.filter(
-        (course) =>
-          course.startWeek <= currentWeek.value &&
-          course.endWeek >= currentWeek.value
-      )
+      storage.courses
+        ? storage.courses.filter(
+            (course) =>
+              course.startWeek <= currentWeek.value &&
+              course.endWeek >= currentWeek.value
+          )
+        : []
     )
 
-    const coloredCourses = {}
+    const coursesColors = {}
     const getBgColor = (name: string) => {
-      if (!coloredCourses[name]) {
-        coloredCourses[name] =
-          colors[Object.keys(coloredCourses).length % colors.length]
+      if (!coursesColors[name]) {
+        coursesColors[name] =
+          colors[Object.keys(coursesColors).length % colors.length]
       }
-      return coloredCourses[name]
+      return coursesColors[name]
     }
 
     return {
       currentWeek,
       timetable,
       courses,
+      totalWeeksCount,
       getBgColor,
     }
   },
