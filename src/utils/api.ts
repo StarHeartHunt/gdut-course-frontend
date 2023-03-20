@@ -13,10 +13,12 @@ export const login_jxfw = (
   return Taro.request({
     url: `${process.env.BACKEND_URL}/auth/login`,
     data: {
-      cookies: Taro.getStorageSync("cookies"),
       account: account,
       pwd: encrypt(pwd, verifycode),
       verifycode: verifycode,
+    },
+    header: {
+      "X-Cookie": Taro.getStorageSync("cookies"),
     },
     method: "POST",
   })
@@ -25,16 +27,22 @@ export const login_jxfw = (
 export const getAllCourses = () => {
   return Taro.request({
     url: `${process.env.BACKEND_URL}/courses/`,
-    method: "POST",
-    data: { cookies: Taro.getStorageSync("cookies"), semester: "202202" },
+    method: "GET",
+    data: { semester: "202202" },
+    header: {
+      "X-Cookie": Taro.getStorageSync("cookies"),
+    },
   })
 }
 
 export const getTermStartWeek = () => {
   return Taro.request({
     url: `${process.env.BACKEND_URL}/courses/termStartWeek`,
-    method: "POST",
-    data: { cookies: Taro.getStorageSync("cookies"), semester: "202202" },
+    method: "GET",
+    data: { semester: "202202" },
+    header: {
+      "X-Cookie": Taro.getStorageSync("cookies"),
+    },
   })
 }
 
@@ -48,8 +56,8 @@ export const initAuth = () => {
 export const getVerifyCode = (cookies: string) => {
   return Taro.request({
     url: `${process.env.BACKEND_URL}/auth/verify`,
-    data: {
-      cookies: cookies,
+    header: {
+      "X-Cookie": cookies,
     },
     method: "POST",
   })
