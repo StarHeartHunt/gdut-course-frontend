@@ -1,6 +1,10 @@
 import Taro from "@tarojs/taro"
 import { encrypt } from "./aes"
 
+export const isStatusSuccess = (statusCode: number) => {
+  return statusCode >= 200 && statusCode < 400
+}
+
 export const login_jxfw = (
   account: string,
   pwd: string,

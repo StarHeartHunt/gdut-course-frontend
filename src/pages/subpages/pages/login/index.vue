@@ -59,7 +59,12 @@ import { useStorage } from "@/stores/storage"
 import "./index.scss"
 import { storeToRefs } from "pinia"
 import { showLoginFailed, showLoginSuccess } from "@/utils/toast"
-import { getVerifyCode, initAuth, login_jxfw } from "@/utils/api"
+import {
+  getVerifyCode,
+  initAuth,
+  isStatusSuccess,
+  login_jxfw,
+} from "@/utils/api"
 
 export default {
   setup() {
@@ -72,9 +77,11 @@ export default {
     })
 
     watch(cookies, (newCookies) => {
-      getVerifyCode(newCookies).then((response) => {
-        captchaSrc.value = response.data
-      })
+      getVerifyCode(newCookies)
+        .then((response) => {
+          captchaSrc.value = response.data
+        })
+        .catch((err) => console.log(`[GetVerifyCode] ${JSON.stringify(err)}`))
     })
 
     const formSubmit = async (e) => {
@@ -82,7 +89,7 @@ export default {
       try {
         const response = await login_jxfw(account, pwd, verifycode)
 
-        if (response.statusCode >= 200 && response.statusCode < 400) {
+        if (isStatusSuccess(response.statusCode)) {
           setTimeout(() => {
             Taro.navigateBack()
           }, 1500)
@@ -91,7 +98,8 @@ export default {
         } else {
           showLoginFailed()
         }
-      } catch (e) {
+      } catch (err) {
+        console.log(`[LoginJXFW] ${JSON.stringify(err)}`)
         showLoginFailed()
       }
     }
