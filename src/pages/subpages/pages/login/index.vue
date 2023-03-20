@@ -67,7 +67,7 @@ export default {
     onMounted(async () => {
       const initCookies = (
         await Taro.request({
-          url: "http://127.0.0.1:3000/auth/init",
+          url: `${process.env.BACKEND_URL}/auth/init`,
           method: "GET",
         })
       ).data
@@ -78,7 +78,7 @@ export default {
       })
       captchaSrc.value = (
         await Taro.request({
-          url: "http://127.0.0.1:3000/auth/verify",
+          url: `${process.env.BACKEND_URL}/auth/verify`,
           data: {
             cookies: cookies.cookies,
           },
@@ -90,7 +90,7 @@ export default {
     const formSubmit = async (e) => {
       const { account, pwd, verifycode } = e.detail.value
       const response = await Taro.request({
-        url: "http://127.0.0.1:3000/auth/login",
+        url: `${process.env.BACKEND_URL}/auth/login`,
         data: {
           cookies: Taro.getStorageSync("cookies"),
           account: account,

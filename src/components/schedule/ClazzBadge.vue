@@ -1,7 +1,7 @@
 <template>
   <view
-    class="flex w-full h-full box-border border-2 border-white rounded-md bg-primary-500/75 active:bg-primary-800/75 shadow-md"
-    :style="gridArea"
+    class="flex w-full h-full box-border border-2 border-white rounded-md shadow-md"
+    :style="styleObj"
   >
     <view class="m-1 text-white text-xs"
       ><text>{{ name }}</text
@@ -18,7 +18,14 @@ import { defineComponent } from "vue"
 
 export default defineComponent({
   props: {
-    name: String,
+    name: {
+      type: String,
+      required: true,
+    },
+    backgroundColor: {
+      type: String,
+      required: true,
+    },
     room: String,
     teacher: String,
     rowStart: {
@@ -39,10 +46,12 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const gridArea = {
-      gridArea: `${props.rowStart} / ${props.colStart} / ${props.rowEnd} / ${props.colStart}`,
+    const styleObj = {
+      gridArea: `${props.rowStart} / ${props.colStart} / ${props.rowEnd} / ${props.colEnd}`,
+      backgroundColor: props.backgroundColor,
     }
-    return { gridArea }
+
+    return { styleObj }
   },
 })
 </script>

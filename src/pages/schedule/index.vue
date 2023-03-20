@@ -20,6 +20,8 @@
         :row-start="course.startNode"
         :row-end="course.endNode + 1"
         :col-start="course.day + 1"
+        :col-end="course.day + 1"
+        :background-color="getBgColor(course.name)"
       />
     </view>
   </view>
@@ -36,6 +38,7 @@ import ClazzBadge from "@/components/schedule/ClazzBadge.vue"
 import { timetable } from "@/consts"
 import { useCourses } from "@/stores/courses"
 import dayjs from "dayjs"
+import { colorPallete } from "@/utils/color"
 
 export default defineComponent({
   components: {
@@ -44,6 +47,20 @@ export default defineComponent({
     ClazzBadge,
   },
   setup() {
+    if (!Taro.getStorageSync("cookies")) {
+      Taro.showModal({
+        title: "提示",
+        content: "您尚未登录，请先登录",
+        success: function (res) {
+          if (res.confirm) {
+            Taro.navigateTo({ url: "/pages/subpages/pages/login/index" })
+          } else if (res.cancel) {
+            console.log("login modal disposed")
+          }
+        },
+      })
+    }
+
     const termStartDate = ref("2023-02-20")
     const currentWeek = computed(() =>
       termStartDate.value
@@ -52,7 +69,7 @@ export default defineComponent({
     )
 
     Taro.request({
-      url: "http://127.0.0.1:3000/courses/termStartWeek",
+      url: `${process.env.BACKEND_URL}/courses/termStartWeek`,
       method: "POST",
       data: { cookies: Taro.getStorageSync("cookies"), semester: "202202" },
     }).then((res) => {
@@ -62,7 +79,7 @@ export default defineComponent({
 
     onMounted(async () => {
       const response = await Taro.request({
-        url: "http://127.0.0.1:3000/courses/",
+        url: `${process.env.BACKEND_URL}/courses/`,
         method: "POST",
         data: { cookies: Taro.getStorageSync("cookies"), semester: "202202" },
       })
@@ -80,10 +97,20 @@ export default defineComponent({
       )
     )
 
+    const coloredCourses = {}
+    const getBgColor = (name) => {
+      if (!coloredCourses[name]) {
+        coloredCourses[name] =
+          colorPallete[Object.keys(coloredCourses).length % colorPallete.length]
+      }
+      return coloredCourses[name]
+    }
+
     return {
       currentWeek,
       timetable,
       courses,
+      getBgColor,
     }
   },
 })

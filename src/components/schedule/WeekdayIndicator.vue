@@ -2,7 +2,7 @@
   <view
     class="w-full grid grid-cols-8 min-h-10 justify-space-between items-center content-center place-items-center bg-primary-500 shadow"
   >
-    <view class="fa-solid fa-arrow-right" style="color: white"></view>
+    <view class="fa-solid fa-arrow-right w-full text-center align-middle" style="color: white"></view>
     <view class="text-center text-white"> 第{{ currentWeek }}周 </view>
     <view
       class="text-center text-white"
@@ -16,10 +16,10 @@
   >
     <view class="text-xs"> {{ currentMonth.toString() }}月 </view>
     <view
-      class="text-xs text-center"
+      class="text-xs text-center rounded-full p-1 w-4 h-4"
       :style="{
         color: weekDates[index] === currentDate ? 'white' : 'black',
-        backgroundColor: weekDates[index] === currentDate ? '#3B82F6' : 'white',
+        backgroundColor: weekDates[index] === currentDate ? '#3B82F6' : 'unser',
       }"
       v-for="(weekDate, index) in weekDates"
       :key="index"
