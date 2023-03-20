@@ -28,17 +28,17 @@
 </template>
 
 <script lang="ts">
-import Taro from "@tarojs/taro"
-import { computed, ComputedRef, defineComponent, onMounted, ref } from "vue"
+import { computed, ComputedRef, defineComponent, ref } from "vue"
 import "./index.scss"
 
 import TimeIndicator from "@/components/schedule/TimeIndicator.vue"
 import WeekdayIndicator from "@/components/schedule/WeekdayIndicator.vue"
 import ClazzBadge from "@/components/schedule/ClazzBadge.vue"
-import { timetable } from "@/consts"
-import { useCourses } from "@/stores/courses"
+import { timetable, colors } from "@/consts"
+import { useStorage } from "@/stores/storage"
 import dayjs from "dayjs"
-import { colorPallete } from "@/utils/color"
+import { getAllCourses, getTermStartWeek } from "@/utils/api"
+import { showLoginTipAndRedirect } from "@/utils/modal"
 
 export default defineComponent({
   components: {
@@ -47,19 +47,8 @@ export default defineComponent({
     ClazzBadge,
   },
   setup() {
-    if (!Taro.getStorageSync("cookies")) {
-      Taro.showModal({
-        title: "提示",
-        content: "您尚未登录，请先登录",
-        success: function (res) {
-          if (res.confirm) {
-            Taro.navigateTo({ url: "/pages/subpages/pages/login/index" })
-          } else if (res.cancel) {
-            console.log("login modal disposed")
-          }
-        },
-      })
-    }
+    const storage = useStorage()
+    if (!storage.cookies) showLoginTipAndRedirect()
 
     const termStartDate = ref("2023-02-20")
     const currentWeek = computed(() =>
@@ -68,29 +57,14 @@ export default defineComponent({
         : 1
     )
 
-    Taro.request({
-      url: `${process.env.BACKEND_URL}/courses/termStartWeek`,
-      method: "POST",
-      data: { cookies: Taro.getStorageSync("cookies"), semester: "202202" },
-    }).then((res) => {
+    getTermStartWeek().then((res) => {
       termStartDate.value = res.data[0].rq
     })
-    const coursesStroage = useCourses()
 
-    onMounted(async () => {
-      const response = await Taro.request({
-        url: `${process.env.BACKEND_URL}/courses/`,
-        method: "POST",
-        data: { cookies: Taro.getStorageSync("cookies"), semester: "202202" },
-      })
-      coursesStroage.setCourses(response.data)
-      await Taro.setStorage({
-        key: "courses",
-        data: response.data,
-      })
-    })
+    getAllCourses().then((response) => storage.setCourses(response.data))
+
     const courses: ComputedRef<Array<Record<string, any>>> = computed(() =>
-      coursesStroage.storageCourses.filter(
+      storage.courses.filter(
         (course) =>
           course.startWeek <= currentWeek.value &&
           course.endWeek >= currentWeek.value
@@ -98,10 +72,10 @@ export default defineComponent({
     )
 
     const coloredCourses = {}
-    const getBgColor = (name) => {
+    const getBgColor = (name: string) => {
       if (!coloredCourses[name]) {
         coloredCourses[name] =
-          colorPallete[Object.keys(coloredCourses).length % colorPallete.length]
+          colors[Object.keys(coloredCourses).length % colors.length]
       }
       return coloredCourses[name]
     }

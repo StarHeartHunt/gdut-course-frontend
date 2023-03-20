@@ -52,67 +52,47 @@
 
 <script lang="ts">
 import Taro from "@tarojs/taro"
-import { onMounted, ref } from "vue"
-import { encrypt } from "@/utils/aes"
+import { ref, watch } from "vue"
 import { getTimestampMS } from "@/utils/time"
-import { useCookies } from "@/stores/cookies"
+import { useStorage } from "@/stores/storage"
 
 import "./index.scss"
+import { storeToRefs } from "pinia"
+import { showLoginFailed, showLoginSuccess } from "@/utils/toast"
+import { getVerifyCode, initAuth, login_jxfw } from "@/utils/api"
 
 export default {
   setup() {
     const captchaSrc = ref("")
-    const cookies = useCookies()
+    const storage = useStorage()
+    const { cookies } = storeToRefs(storage)
 
-    onMounted(async () => {
-      const initCookies = (
-        await Taro.request({
-          url: `${process.env.BACKEND_URL}/auth/init`,
-          method: "GET",
-        })
-      ).data
-      cookies.setCookies(initCookies)
-      await Taro.setStorage({
-        key: "cookies",
-        data: initCookies,
+    initAuth().then((response) => {
+      storage.setCookies(response.data)
+    })
+
+    watch(cookies, (newCookies) => {
+      getVerifyCode(newCookies).then((response) => {
+        captchaSrc.value = response.data
       })
-      captchaSrc.value = (
-        await Taro.request({
-          url: `${process.env.BACKEND_URL}/auth/verify`,
-          data: {
-            cookies: cookies.cookies,
-          },
-          method: "POST",
-        })
-      ).data
     })
 
     const formSubmit = async (e) => {
       const { account, pwd, verifycode } = e.detail.value
-      const response = await Taro.request({
-        url: `${process.env.BACKEND_URL}/auth/login`,
-        data: {
-          cookies: Taro.getStorageSync("cookies"),
-          account: account,
-          pwd: encrypt(pwd, verifycode),
-          verifycode: verifycode,
-        },
-        method: "POST",
-      })
-      if (response.statusCode >= 200 && response.statusCode < 400) {
-        setTimeout(() => {
-          Taro.navigateBack()
-        }, 1500)
-        Taro.showToast({
-          title: "登录成功",
-          icon: "success",
-        })
-        Taro.setStorageSync("isLoggedin", true)
-      } else {
-        Taro.showToast({
-          title: "登录失败",
-          icon: "none",
-        })
+      try {
+        const response = await login_jxfw(account, pwd, verifycode)
+
+        if (response.statusCode >= 200 && response.statusCode < 400) {
+          setTimeout(() => {
+            Taro.navigateBack()
+          }, 1500)
+          showLoginSuccess()
+          Taro.setStorageSync("isLoggedin", true)
+        } else {
+          showLoginFailed()
+        }
+      } catch (e) {
+        showLoginFailed()
       }
     }
 
