@@ -50,6 +50,9 @@ const config = {
         },
       })
     },
+    optimizeMainPackage: {
+      enable: true,
+    },
     postcss: {
       pxtransform: {
         enable: true,
