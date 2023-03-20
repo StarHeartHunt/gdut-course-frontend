@@ -1,6 +1,6 @@
 <template>
   <scroll-view
-    class="flex flex-row bg-primary-500 shadow items-center justify-around border-box whitespace-nowrap "
+    class="bg-primary-500 shadow items-center justify-around border-box whitespace-nowrap"
     :scroll-x="true"
     style="width: 100%"
   >
