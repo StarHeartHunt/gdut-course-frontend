@@ -1,6 +1,7 @@
 module.exports = {
   env: {
     NODE_ENV: '"production"',
+    BACKEND_URL: '"https://course.baka.icu"',
   },
   defineConstants: {},
   mini: {},
