@@ -3,6 +3,8 @@
     <WeekdayIndicator
       :current-week="currentWeek"
       :total-weeks-count="totalWeeksCount"
+      v-model:selected-week-prop="selectedWeek"
+      @update:selectedWeek="(newValue) => (selectedWeek = newValue)"
     />
     <view
       class="grid grid-cols-8 grid-rows-12 grid-flow-col w-full box-border items-center content-center place-items-center gap-1"
@@ -62,6 +64,8 @@ export default defineComponent({
         ? dayjs().diff(dayjs(termStartDate.value), "week") + 1
         : 1
     )
+    let selectedWeek = ref(currentWeek.value)
+
     eventCenter.once(getCurrentInstance().router!.onShow, () => {
       getTermStartWeek()
         .then((res) => {
@@ -83,8 +87,8 @@ export default defineComponent({
       storage.courses
         ? storage.courses.filter(
             (course) =>
-              course.startWeek <= currentWeek.value &&
-              course.endWeek >= currentWeek.value
+              course.startWeek <= selectedWeek.value &&
+              course.endWeek >= selectedWeek.value
           )
         : []
     )
@@ -103,6 +107,7 @@ export default defineComponent({
       timetable,
       courses,
       totalWeeksCount,
+      selectedWeek,
       getBgColor,
     }
   },
