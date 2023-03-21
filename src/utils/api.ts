@@ -59,6 +59,6 @@ export const getVerifyCode = (cookies: string) => {
     header: {
       "X-Cookie": cookies,
     },
-    method: "POST",
+    method: "GET",
   })
 }
