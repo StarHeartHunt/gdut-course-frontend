@@ -1,7 +1,6 @@
 <template>
   <view class="schedule">
     <WeekdayIndicator
-      :current-week="currentWeek"
       :total-weeks-count="totalWeeksCount"
       v-model:selected-week-prop="selectedWeek"
       @update:selectedWeek="(newValue) => (selectedWeek = newValue)"
@@ -33,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, ref } from "vue"
+import { computed, defineComponent, ref } from "vue"
 import { eventCenter, getCurrentInstance } from "@tarojs/taro"
 import "./index.scss"
 
@@ -42,7 +41,6 @@ import WeekdayIndicator from "@/components/schedule/WeekdayIndicator.vue"
 import ClazzBadge from "@/components/schedule/ClazzBadge.vue"
 import { timetable, colors } from "@/consts"
 import { useStorage } from "@/stores/storage"
-import dayjs from "dayjs"
 import { getAllCourses, getTermStartWeek, isStatusSuccess } from "@/utils/api"
 import { showLoginTipAndRedirect } from "@/utils/modal"
 
@@ -56,21 +54,14 @@ export default defineComponent({
     const storage = useStorage()
     if (!storage.cookies) showLoginTipAndRedirect()
 
-    const termStartDate = ref("2023-02-20")
     const totalWeeksCount = ref(20)
-
-    const currentWeek = computed(() =>
-      termStartDate.value
-        ? dayjs().diff(dayjs(termStartDate.value), "week") + 1
-        : 1
-    )
-    let selectedWeek = ref(currentWeek.value)
+    let selectedWeek = ref(storage.currentWeek)
 
     eventCenter.once(getCurrentInstance().router!.onShow, () => {
       getTermStartWeek()
         .then((res) => {
           if (isStatusSuccess(res.statusCode))
-            termStartDate.value = res.data[0].rq
+            storage.termStartDate = res.data[0].rq
         })
         .catch((err) =>
           console.log(`[GetTermStartWeek] ${JSON.stringify(err)}`)
@@ -83,15 +74,7 @@ export default defineComponent({
         .catch((err) => console.log(`[GetAllCourses] ${JSON.stringify(err)}`))
     })
 
-    const courses: ComputedRef<Array<Record<string, any>>> = computed(() =>
-      storage.courses
-        ? storage.courses.filter(
-            (course) =>
-              course.startWeek <= selectedWeek.value &&
-              course.endWeek >= selectedWeek.value
-          )
-        : []
-    )
+    const courses = computed(() => storage.getCourses(selectedWeek.value))
 
     const coursesColors = {}
     const getBgColor = (name: string) => {
@@ -103,7 +86,6 @@ export default defineComponent({
     }
 
     return {
-      currentWeek,
       timetable,
       courses,
       totalWeeksCount,

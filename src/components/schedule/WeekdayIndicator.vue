@@ -6,7 +6,6 @@
     :enhanced="true"
     :show-scrollbar="false"
     :scroll-with-animation="true"
-    :paging-enabled="true"
     style="width: 100%"
   >
     <view
@@ -23,29 +22,35 @@
   <view
     class="w-full grid grid-cols-8 min-h-10 justify-space-between items-center content-center place-items-center"
   >
-    <view class="text-xs"> {{ (currentMonth + 1).toString() }}月 </view>
+    <view class="text-xs"> {{ selectedMonth + 1 }}月 </view>
     <view v-for="(weekDate, index) in weekDates" :key="index">
       <view class="text-xs text-center mt-1">{{ weekdays[index] }}</view>
       <view
         class="text-xs text-center rounded-full p-1 w-4 h-4 mb-1"
         :style="{
-          color: weekDates[index] === currentDate ? 'white' : 'black',
+          color:
+            weekDates[index] === todayDate && selectedMonth == todayMonth
+              ? 'white'
+              : 'black',
           backgroundColor:
-            weekDates[index] === currentDate ? '#3B82F6' : 'unser',
+            weekDates[index] === todayDate && selectedMonth == todayMonth
+              ? '#3B82F6'
+              : 'unser',
         }"
       >
-        {{ weekDate.toString() }}
+        {{ weekDate }}
       </view>
     </view>
   </view>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue"
+import { computed, defineComponent } from "vue"
 import Taro, { eventCenter, getCurrentInstance } from "@tarojs/taro"
 
 import { weekdays } from "@/consts"
 import { arrayRange } from "@/utils/array"
+import { useStorage } from "@/stores/storage"
 
 import dayjs from "dayjs"
 import weekday from "dayjs/plugin/weekday"
@@ -56,10 +61,6 @@ dayjs.locale("zh-cn")
 
 export default defineComponent({
   props: {
-    currentWeek: {
-      type: Number,
-      required: true,
-    },
     totalWeeksCount: {
       type: Number,
       required: true,
@@ -71,15 +72,9 @@ export default defineComponent({
   },
   emits: ["update:selectedWeek"],
   setup(props, { emit }) {
-    const currentMonth = dayjs().month()
-    const currentDate = dayjs().get("date")
-
-    const weekStartDate = dayjs().weekday(0).get("date")
-    const weekEndDate = dayjs().weekday(6).get("date")
-
-    const weekDates = arrayRange(weekStartDate, weekEndDate, 1)
-    const allWeeks = computed(() => arrayRange(1, props.totalWeeksCount, 1))
-
+    const storage = useStorage()
+    const todayMonth = dayjs().get("month")
+    const todayDate = dayjs().get("date")
     const selectedWeek = computed({
       get() {
         return props.selectedWeekProp
@@ -88,19 +83,32 @@ export default defineComponent({
         emit("update:selectedWeek", value)
       },
     })
-    eventCenter.once(getCurrentInstance().router!.onReady, () => {
-      Taro.createSelectorQuery()
-        .select("#scrollview")
-        .node()
-        .exec((res) => {
-          const scrollView = res[0].node
-          scrollView.scrollIntoView(`#item${selectedWeek.value}`)
+
+    const selectedMonth = computed(() =>
+      dayjs(storage.termStartDate)
+        .startOf("week")
+        .add(selectedWeek.value - 1, "week")
+        .get("month")
+    )
+
+    const weekDates = computed(() => {
+      return Array(7)
+        .fill(dayjs(storage.termStartDate).startOf("week"))
+        .map((ele, idx) => {
+          return ele
+            .add(selectedWeek.value - 1, "week")
+            .add(idx, "day")
+            .get("date")
         })
     })
+    const allWeeks = computed(() => arrayRange(1, props.totalWeeksCount, 1))
 
-    const changeSelectedWeek = (e: any) => {
-      selectedWeek.value = e.target.dataset.week
-      /*
+    eventCenter.once(getCurrentInstance().router!.onReady, () => {
+      calcLeftAndJump()
+    })
+
+    const calcLeftAndJump = () => {
+      let rect
       Taro.createSelectorQuery()
         .select(`#item${selectedWeek.value}`)
         .boundingClientRect(function (rect) {
@@ -114,23 +122,30 @@ export default defineComponent({
           rect.height // 节点的高度
         })
         .exec((res) => {
-          console.log(res)
-          isRightBound = res[0].right > 375
-          isLeftBound = res[0].left == 0
+          rect = res[0]
         })
-      */
       Taro.createSelectorQuery()
         .select("#scrollview")
         .node()
         .exec((res) => {
           const scrollView = res[0].node
-          scrollView.scrollIntoView(`#item${selectedWeek.value}`)
+          scrollView.scrollTo({
+            left: (selectedWeek.value - 1) * rect.width,
+            duration: 300,
+          })
+          //scrollView.scrollIntoView(`#item${selectedWeek.value}`)
         })
     }
 
+    const changeSelectedWeek = (e: any) => {
+      selectedWeek.value = e.target.dataset.week
+      calcLeftAndJump()
+    }
+
     return {
-      currentMonth,
-      currentDate,
+      selectedMonth,
+      todayMonth,
+      todayDate,
       weekdays,
       weekDates,
       allWeeks,
