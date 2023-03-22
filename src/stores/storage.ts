@@ -1,19 +1,19 @@
 import { defineStore } from "pinia"
-import { computed, ref } from "vue"
+import { computed, Ref, ref } from "vue"
 import Taro from "@tarojs/taro"
 
 import dayjs from "dayjs"
 import weekday from "dayjs/plugin/weekday"
 import "dayjs/locale/zh-cn"
+import { Course } from "@/utils/api"
 
 dayjs.extend(weekday)
 dayjs.locale("zh-cn")
 
 export const useStorage = defineStore("storage", () => {
   const cookies = ref(Taro.getStorageSync<string>("cookies") || "")
-  const courses = ref(
-    Taro.getStorageSync<Array<Record<string, any>>>("courses") ||
-      ([] as Array<Record<string, any>>)
+  const courses: Ref<Array<Course>> = ref(
+    Taro.getStorageSync<Array<Course>>("courses") || ([{}] as Array<Course>)
   )
   const termStartDate = ref(
     Taro.getStorageSync<string>("termStartDate") || "2023-02-20"
@@ -26,9 +26,7 @@ export const useStorage = defineStore("storage", () => {
 
   const getCourses = (week: number) => {
     return courses.value
-      ? courses.value.filter(
-          (course) => course.startWeek <= week && course.endWeek >= week
-        )
+      ? courses.value.filter((course) => course.weeks.indexOf(week) != -1)
       : []
   }
 
@@ -36,7 +34,7 @@ export const useStorage = defineStore("storage", () => {
     cookies.value = value
     Taro.setStorageSync("cookies", value)
   }
-  const setCourses = (value: Array<Record<string, any>>) => {
+  const setCourses = (value: Array<Course>) => {
     courses.value = value
     Taro.setStorageSync("courses", value)
   }

@@ -16,7 +16,7 @@
       />
       <ClazzBadge
         v-for="(course, index) in courses"
-        :key="index"
+        :key="`${selectedWeek}-${index}`"
         :name="course.name"
         :room="course.room"
         :teacher="course.teacher"
@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue"
+import { computed, defineComponent, ref, watch } from "vue"
 import "./index.scss"
 
 import TimeIndicator from "@/components/schedule/TimeIndicator.vue"
