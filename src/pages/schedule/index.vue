@@ -2,8 +2,7 @@
   <view class="schedule">
     <WeekdayIndicator
       :total-weeks-count="totalWeeksCount"
-      v-model:selected-week-prop="selectedWeek"
-      @update:selectedWeek="(newValue) => (selectedWeek = newValue)"
+      v-model:selected-week="selectedWeek"
     />
     <view
       class="grid grid-cols-8 grid-rows-12 grid-flow-col w-full box-border items-center content-center place-items-center gap-1"

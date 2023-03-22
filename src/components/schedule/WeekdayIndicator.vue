@@ -65,7 +65,7 @@ export default defineComponent({
       type: Number,
       required: true,
     },
-    selectedWeekProp: {
+    selectedWeek: {
       type: Number,
       required: true,
     },
@@ -75,19 +75,11 @@ export default defineComponent({
     const storage = useStorage()
     const todayMonth = dayjs().get("month")
     const todayDate = dayjs().get("date")
-    const selectedWeek = computed({
-      get() {
-        return props.selectedWeekProp
-      },
-      set(value) {
-        emit("update:selectedWeek", value)
-      },
-    })
 
     const selectedMonth = computed(() =>
       dayjs(storage.termStartDate)
         .startOf("week")
-        .add(selectedWeek.value - 1, "week")
+        .add(props.selectedWeek - 1, "week")
         .get("month")
     )
 
@@ -96,7 +88,7 @@ export default defineComponent({
         .fill(dayjs(storage.termStartDate).startOf("week"))
         .map((ele, idx) => {
           return ele
-            .add(selectedWeek.value - 1, "week")
+            .add(props.selectedWeek - 1, "week")
             .add(idx, "day")
             .get("date")
         })
@@ -110,7 +102,7 @@ export default defineComponent({
     const calcLeftAndJump = () => {
       let rect
       Taro.createSelectorQuery()
-        .select(`#item${selectedWeek.value}`)
+        .select(`#item${props.selectedWeek}`)
         .boundingClientRect(function (rect) {
           rect.id // 节点的ID
           rect.dataset // 节点的dataset
@@ -130,15 +122,15 @@ export default defineComponent({
         .exec((res) => {
           const scrollView = res[0].node
           scrollView.scrollTo({
-            left: (selectedWeek.value - 1) * rect.width,
+            left: (props.selectedWeek - 1) * rect.width,
             duration: 300,
           })
-          //scrollView.scrollIntoView(`#item${selectedWeek.value}`)
+          //scrollView.scrollIntoView(`#item${props.selectedWeek.value}`)
         })
     }
 
     const changeSelectedWeek = (e: any) => {
-      selectedWeek.value = e.target.dataset.week
+      emit("update:selectedWeek", e.target.dataset.week)
       calcLeftAndJump()
     }
 
@@ -149,7 +141,6 @@ export default defineComponent({
       weekdays,
       weekDates,
       allWeeks,
-      selectedWeek,
       changeSelectedWeek,
     }
   },
