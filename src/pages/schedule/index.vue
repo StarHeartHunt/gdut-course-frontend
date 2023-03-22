@@ -32,7 +32,6 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from "vue"
-import { eventCenter, getCurrentInstance } from "@tarojs/taro"
 import "./index.scss"
 
 import TimeIndicator from "@/components/schedule/TimeIndicator.vue"
@@ -40,7 +39,6 @@ import WeekdayIndicator from "@/components/schedule/WeekdayIndicator.vue"
 import ClazzBadge from "@/components/schedule/ClazzBadge.vue"
 import { timetable, colors } from "@/consts"
 import { useStorage } from "@/stores/storage"
-import { getAllCourses, getTermStartWeek, isStatusSuccess } from "@/utils/api"
 import { showLoginTipAndRedirect } from "@/utils/modal"
 
 export default defineComponent({
@@ -55,23 +53,6 @@ export default defineComponent({
 
     const totalWeeksCount = ref(20)
     let selectedWeek = ref(storage.currentWeek)
-
-    eventCenter.once(getCurrentInstance().router!.onShow, () => {
-      getTermStartWeek()
-        .then((res) => {
-          if (isStatusSuccess(res.statusCode))
-            storage.termStartDate = res.data[0].rq
-        })
-        .catch((err) =>
-          console.log(`[GetTermStartWeek] ${JSON.stringify(err)}`)
-        )
-
-      getAllCourses()
-        .then((res) => {
-          if (isStatusSuccess(res.statusCode)) storage.setCourses(res.data)
-        })
-        .catch((err) => console.log(`[GetAllCourses] ${JSON.stringify(err)}`))
-    })
 
     const courses = computed(() => storage.getCourses(selectedWeek.value))
 

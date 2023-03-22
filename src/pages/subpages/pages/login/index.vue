@@ -60,6 +60,8 @@ import "./index.scss"
 import { storeToRefs } from "pinia"
 import { showLoginFailed, showLoginSuccess } from "@/utils/toast"
 import {
+  getAllCourses,
+  getTermStartWeek,
   getVerifyCode,
   initAuth,
   isStatusSuccess,
@@ -90,6 +92,22 @@ export default {
         const response = await login_jxfw(account, pwd, verifycode)
 
         if (isStatusSuccess(response.statusCode)) {
+          getTermStartWeek()
+            .then((res) => {
+              if (isStatusSuccess(res.statusCode))
+                storage.termStartDate = res.data[0].rq
+            })
+            .catch((err) =>
+              console.log(`[GetTermStartWeek] ${JSON.stringify(err)}`)
+            )
+
+          getAllCourses()
+            .then((res) => {
+              if (isStatusSuccess(res.statusCode)) storage.setCourses(res.data)
+            })
+            .catch((err) =>
+              console.log(`[GetAllCourses] ${JSON.stringify(err)}`)
+            )
           setTimeout(() => {
             Taro.navigateBack()
           }, 1500)
