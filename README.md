@@ -6,6 +6,6 @@
 
 项目采用 NestJS 作为后端选择，见 StarHeartHunt/gdut-course-backend。
 
-# 许可证
+## 许可证
 
 本仓库代码采用 Apache-2.0 license 许可证，见 [License](https://github.com/StarHeartHunt/gdut-course-frontend/blob/main/LICENSE)
