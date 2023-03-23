@@ -13,20 +13,20 @@ export default {
     backgroundColor: "#ffffff",
     list: [
       {
-        iconPath: "assets/images/a.png",
-        selectedIconPath: "assets/images/a.png",
+        iconPath: "assets/images/schedule.png",
+        selectedIconPath: "assets/images/schedule_selected.png",
         pagePath: "pages/schedule/index",
         text: "课表",
       },
       {
-        iconPath: "assets/images/a.png",
-        selectedIconPath: "assets/images/a.png",
+        iconPath: "assets/images/score.png",
+        selectedIconPath: "assets/images/score_selected.png",
         pagePath: "pages/score/index",
         text: "成绩",
       },
       {
-        iconPath: "assets/images/a.png",
-        selectedIconPath: "assets/images/a.png",
+        iconPath: "assets/images/settings.png",
+        selectedIconPath: "assets/images/settings_selected.png",
         pagePath: "pages/settings/index",
         text: "设置",
       },
