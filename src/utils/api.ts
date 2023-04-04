@@ -66,13 +66,3 @@ export const initAuth = () => {
     method: "GET",
   })
 }
-
-export const getVerifyCode = (cookies: string) => {
-  return Taro.request({
-    url: process.env.BACKEND_URL + "/auth/verify",
-    header: {
-      "X-Cookie": cookies,
-    },
-    method: "GET",
-  })
-}

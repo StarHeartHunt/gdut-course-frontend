@@ -15,7 +15,7 @@
           ></view>
           <text
             class="ml-1 text-center align-middle justify-self-center self-center"
-            >用户管理</text
+            >刷新课表</text
           >
           <view
             class="absolute fa-chevron-right fas text-primary-900 right-4 h-fit text-center align-middle justify-self-center self-center"

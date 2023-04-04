@@ -52,7 +52,7 @@
 
 <script lang="ts">
 import Taro from "@tarojs/taro"
-import { ref, watch } from "vue"
+import { computed } from "vue"
 import { getTimestampMS } from "@/utils/time"
 import { useStorage } from "@/stores/storage"
 
@@ -62,7 +62,6 @@ import { showLoginFailed, showLoginSuccess } from "@/utils/toast"
 import {
   getAllCourses,
   getTermStartWeek,
-  getVerifyCode,
   initAuth,
   isStatusSuccess,
   login_jxfw,
@@ -70,20 +69,15 @@ import {
 
 export default {
   setup() {
-    const captchaSrc = ref("")
     const storage = useStorage()
     const { cookies } = storeToRefs(storage)
+    const captchaSrc = computed(
+      () =>
+        process.env.BACKEND_URL + "/auth/verify" + "?cookie=" + cookies.value
+    )
 
     initAuth().then((response) => {
       storage.setCookies(response.data)
-    })
-
-    watch(cookies, (newCookies) => {
-      getVerifyCode(newCookies)
-        .then((response) => {
-          captchaSrc.value = response.data
-        })
-        .catch((err) => console.log(`[GetVerifyCode] ${JSON.stringify(err)}`))
     })
 
     const formSubmit = async (e) => {
