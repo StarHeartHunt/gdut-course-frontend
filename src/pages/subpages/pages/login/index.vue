@@ -71,9 +71,13 @@ export default {
   setup() {
     const storage = useStorage()
     const { cookies } = storeToRefs(storage)
-    const captchaSrc = computed(
-      () =>
-        process.env.BACKEND_URL + "/auth/verify" + "?cookie=" + cookies.value
+    const captchaSrc = computed(() =>
+      cookies.value
+        ? process.env.BACKEND_URL +
+          "/auth/verify" +
+          "?cookie=" +
+          encodeURIComponent(cookies.value)
+        : ""
     )
 
     initAuth().then((response) => {

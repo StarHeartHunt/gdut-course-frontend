@@ -26,7 +26,7 @@ export const useStorage = defineStore("storage", () => {
 
   const getCourses = (week: number) => {
     return courses.value
-      ? courses.value.filter((course) => course.weeks.indexOf(week) != -1)
+      ? courses.value.filter((course) => course?.weeks?.indexOf(week) != -1)
       : []
   }
 
