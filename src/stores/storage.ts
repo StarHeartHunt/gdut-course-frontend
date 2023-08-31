@@ -16,7 +16,7 @@ export const useStorage = defineStore("storage", () => {
     Taro.getStorageSync<Array<Course>>("courses") || ([{}] as Array<Course>)
   )
   const termStartDate = ref(
-    Taro.getStorageSync<string>("termStartDate") || "2023-02-20"
+    Taro.getStorageSync<string>("termStartDate") || "2023-08-28"
   )
   const currentWeek = computed(() =>
     termStartDate.value

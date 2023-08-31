@@ -42,7 +42,7 @@ export const getAllCourses = () => {
   return Taro.request({
     url: process.env.BACKEND_URL + "/courses/",
     method: "GET",
-    data: { semester: "202202" },
+    data: { semester: "202301" },
     header: {
       "X-Cookie": Taro.getStorageSync("cookies"),
     },
@@ -53,7 +53,7 @@ export const getTermStartWeek = () => {
   return Taro.request({
     url: process.env.BACKEND_URL + "/courses/termStartWeek",
     method: "GET",
-    data: { semester: "202202" },
+    data: { semester: "202301" },
     header: {
       "X-Cookie": Taro.getStorageSync("cookies"),
     },
